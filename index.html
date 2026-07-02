@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="data:,">
-<title>AdShoot — Store · AdVideo · Product</title>
+<title>AdShort — Store · AdVideo · Product</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -185,6 +185,19 @@
   .pw-sub{text-align:center; font-size:12.5px; color:rgba(255,255,255,.74); margin-top:12px; font-weight:500}
   .pw-foot{display:flex; align-items:center; justify-content:center; gap:8px; margin-top:13px; font-size:11.5px; color:rgba(255,255,255,.6)}
   .pw-foot .sep{opacity:.5}
+  /* 3-tier pricing (Creator / Studio / Agency) — ported from paywall v7 */
+  .pw-plans{display:flex; gap:10px; margin-bottom:15px}
+  .pw-plan{flex:1; position:relative; text-align:left; padding:12px 13px 11px; border-radius:14px; background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.2); color:#fff; cursor:pointer; display:flex; flex-direction:column; gap:2px; transition:background .15s,border-color .15s}
+  .pw-plan.sel{background:rgba(255,255,255,.17); border-color:#fff}
+  .pw-plan .pl-name{font-family:var(--sans); font-size:9.5px; font-weight:700; letter-spacing:1.1px; text-transform:uppercase; opacity:.72}
+  .pw-plan .pl-price{font-family:var(--serif); font-size:22px; font-weight:500; line-height:1; letter-spacing:-.4px; margin:1px 0}
+  .pw-plan .pl-price span{font-family:var(--sans); font-size:9.5px; font-weight:600; letter-spacing:.3px; opacity:.5}
+  .pw-plan .pl-note{font-family:var(--sans); font-size:9.5px; font-weight:500; opacity:.58; letter-spacing:.1px}
+  .pw-plan .save{position:absolute; top:-9px; left:50%; transform:translateX(-50%); background:var(--em); color:#fff; font-size:9px; font-weight:800; padding:2px 8px; border-radius:8px; letter-spacing:.4px; white-space:nowrap}
+  .pw-plans-3 .pw-plan{padding:12px 9px 10px; gap:2px}
+  .pw-plans-3 .pw-plan .pl-price{font-size:20px}
+  .pw-plans-3 .pw-plan .pl-price span{font-size:9px}
+  .pw-plans-3 .pw-plan .pl-note{line-height:1.25}
 
   /* ============ STORE ============ */
   .stop{display:flex; align-items:center; justify-content:space-between; padding:52px 22px 8px}
@@ -291,68 +304,156 @@
   .scenecard.seeall{width:92px; display:flex; align-items:center; justify-content:center; padding-bottom:34px}
   .scenecard.seeall .ar{width:56px;height:56px;border-radius:50%; background:var(--em-soft); color:var(--em-d); display:grid;place-items:center; font-size:22px}
 
-  /* ============ STORE — hero card · Photoroom-style self-playing showcase ============ */
-  /* arc: connect (LIGHT, link) → a SET of listing-ready shots (morph to deep emerald) → a LIVE listing */
-  .heroc{position:relative; height:324px; margin:18px 22px 2px; border-radius:24px; overflow:hidden; isolation:isolate;
-    background:#0A4632; box-shadow:0 22px 48px rgba(8,52,38,.4), inset 0 0 0 1px rgba(255,255,255,.05); animation:heroIn .7s var(--ease) both}
-  @keyframes heroIn{from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:none}}
-  .heroc::after{content:''; position:absolute; top:0; bottom:0; left:-72%; width:50%; z-index:4; pointer-events:none;
-    background:linear-gradient(105deg,transparent, rgba(255,255,255,.10) 48%, transparent); transform:skewX(-14deg);
-    animation:heroSheen 7.5s ease-in-out 1.6s infinite}
-  @keyframes heroSheen{0%{left:-72%}44%,100%{left:140%}}
-  .heroc-x{position:absolute; top:13px; right:13px; z-index:6; width:27px;height:27px;border-radius:50%; line-height:1;
-    background:rgba(18,20,17,.34); color:#fff; display:grid;place-items:center; font-size:14px; cursor:pointer; backdrop-filter:blur(2px)}
-  /* full-bleed stage; each layer carries its own background, so the crossfade morphs the colour */
-  .heroc-stage{position:absolute; inset:0; z-index:1}
-  .hs{position:absolute; inset:0; opacity:0; transition:opacity .6s ease}
-  /* — 1 · idle: light & airy, connect ring + link — */
-  .hs-idle{background:linear-gradient(180deg,#FCFBF7 0%,#EFF4F0 50%,#177053 84%,#0A4632 100%); display:grid; place-items:center; padding-bottom:116px}
-  .hs-ring{width:98px;height:98px;border-radius:50%; display:grid;place-items:center;
-    background:#E6F0EB; box-shadow:0 0 0 11px rgba(230,240,235,.46), 0 12px 28px rgba(14,92,67,.2); animation:heroPulse 3.4s ease-in-out infinite}
-  @keyframes heroPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-  .hs-ring svg{width:40px;height:40px;stroke:#0E5C43;fill:none;stroke-width:2}
-  /* — 2 · grid: a SET of listing-ready shots on deep emerald (radial glow) — */
-  .hs-grid{background:radial-gradient(125% 96% at 50% 26%, #18774f 0%, #0c4835 56%, #052a1f 100%);
-    display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:15px 15px 132px}
-  .hs-grid .tile{border-radius:13px; background:#FBFAF7; overflow:hidden; display:grid; place-items:center; border:1px solid rgba(0,0,0,.05);
-    box-shadow:0 10px 22px rgba(0,0,0,.34); opacity:0; transform:translateY(16px) scale(.92); transition:opacity .5s var(--ease), transform .5s var(--ease)}
-  .hs-grid .tile img{width:100%; height:100%; object-fit:contain; padding:6%}
-  /* — 3 · listing: one shot becomes a LIVE storefront listing — */
-  .hs-listing{background:radial-gradient(125% 96% at 50% 24%, #18774f 0%, #0c4835 56%, #052a1f 100%);
-    display:grid; place-items:start center; padding:15px 18px 116px}
-  .hs-lcard{width:198px; background:#fff; border-radius:15px; overflow:hidden; box-shadow:0 18px 40px rgba(0,0,0,.44);
-    opacity:0; transform:translateY(12px) scale(.92); transition:opacity .55s var(--ease), transform .55s var(--ease)}
-  .hs-lcard .lc-img{position:relative; height:106px; background:#f2efe8}
-  .hs-lcard .lc-img img{width:100%;height:100%;object-fit:cover}
-  .hs-lcard .lc-mk{position:absolute; top:7px; left:7px; width:20px;height:20px;border-radius:6px; background:#95BF47; color:#fff; display:grid;place-items:center; font-size:11px; font-weight:800; box-shadow:0 2px 6px rgba(0,0,0,.2)}
-  .hs-lcard .lc-sc{position:absolute; top:7px; right:7px; background:rgba(14,92,67,.96); color:#fff; font-size:9px; font-weight:800; padding:3px 7px; border-radius:7px}
-  .hs-lcard .lc-info{padding:8px 11px 10px}
-  .hs-lcard .lc-row{display:flex; align-items:center; justify-content:space-between; gap:8px}
-  .hs-lcard .lc-nm{font-family:var(--sans); font-size:12.5px; font-weight:700; color:var(--ink)}
-  .hs-lcard .lc-sw{display:flex; gap:4px; flex:none} .hs-lcard .lc-sw i{width:11px;height:11px;border-radius:50%; border:1px solid rgba(0,0,0,.12)}
-  .hs-lcard .lc-pr{font-family:var(--serif); font-size:13px; font-weight:600; color:var(--ink2); margin-top:1px}
-  .hs-lcard .lc-btns{display:flex; gap:6px; margin-top:8px}
-  .hs-lcard .lc-btns span{flex:1; text-align:center; font-size:10px; font-weight:700; padding:7px 0; border-radius:8px}
-  .hs-lcard .lc-cart{background:#F1EEE6; color:var(--ink2)} .hs-lcard .lc-buy{background:var(--em); color:#fff}
-  /* stage activation */
-  .heroc.s-idle    .hs-idle{opacity:1}
-  .heroc.s-grid    .hs-grid{opacity:1}
-  .heroc.s-grid    .hs-grid .tile{opacity:1; transform:none}
-  .heroc.s-grid    .hs-grid .tile:nth-child(2){transition-delay:.09s}
-  .heroc.s-grid    .hs-grid .tile:nth-child(3){transition-delay:.18s}
-  .heroc.s-grid    .hs-grid .tile:nth-child(4){transition-delay:.27s}
-  .heroc.s-listing .hs-listing{opacity:1}
-  .heroc.s-listing .hs-lcard{opacity:1; transform:none}
-  /* bottom scrim (foot zone only) + copy + connect button */
-  .heroc-scrim{position:absolute; left:0; right:0; bottom:0; height:116px; z-index:2; pointer-events:none;
-    background:linear-gradient(to top, rgba(5,36,26,.96) 32%, rgba(5,36,26,.5) 70%, transparent)}
-  .heroc-foot{position:absolute; left:0; right:0; bottom:0; z-index:3; padding:0 18px 17px}
-  .heroc-txt{font-family:var(--serif); font-weight:500; font-size:18px; line-height:1.16; letter-spacing:-.2px; color:#fff;
-    text-shadow:0 1px 12px rgba(0,0,0,.3); margin-bottom:12px; max-width:90%}
-  .heroc-b{display:inline-flex; align-items:center; gap:7px; border-radius:999px; font-family:var(--sans); font-weight:700; font-size:13px;
-    cursor:pointer; transition:transform .15s ease, background .2s; padding:11px 16px; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.34); color:#fff}
-  .heroc-b:hover{background:rgba(255,255,255,.24)} .heroc-b:active{transform:scale(.96)}
-  .heroc-b svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}
+  /* ============ STORE — hero card (5-beat, namespaced hc-) ============ */
+/* ============ STORE HERO CARD — premium effects pass ============ */
+  .hc-heroc{position:relative; height:352px; border-radius:24px; overflow:hidden; isolation:isolate;
+    background:var(--em-d); box-shadow:0 22px 48px rgba(8,52,38,.42); cursor:pointer; perspective:1200px}
+  /* breathing edge glow (emerald↔gold hairline) */
+  .hc-fx-glow{position:absolute; inset:0; border-radius:24px; z-index:8; pointer-events:none;
+    animation:kf-edgeGlow 5.5s ease-in-out infinite}
+  @keyframes kf-edgeGlow{0%,100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.07), inset 0 0 26px rgba(143,240,198,.06)}
+    50%{box-shadow:inset 0 0 0 1px rgba(198,161,91,.18), inset 0 0 36px rgba(143,240,198,.15)}}
+  /* specular glare sweep */
+  .hc-fx-glare{position:absolute; top:0; bottom:0; left:-72%; width:55%; z-index:9; pointer-events:none;
+    background:linear-gradient(105deg,transparent, rgba(255,255,255,.14) 46%, rgba(255,255,255,.05) 58%, transparent); transform:skewX(-14deg);
+    animation:kf-glare 7.5s ease-in-out 1.4s infinite}
+  @keyframes kf-glare{0%{left:-72%}42%,100%{left:150%}}
+  /* film grain */
+  .hc-fx-grain{position:absolute; inset:0; z-index:10; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.hc-w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* ambient dust motes */
+  .hc-motes{position:absolute; inset:0; z-index:7; pointer-events:none; overflow:hidden}
+  .hc-motes i{position:absolute; width:4px;height:4px;border-radius:50%; background:radial-gradient(circle,#fff,rgba(255,255,255,0)); opacity:0; filter:blur(.3px)}
+  .hc-motes i:nth-child(1){left:12%; animation:kf-mote 9s ease-in-out .0s infinite}
+  .hc-motes i:nth-child(2){left:34%; width:3px;height:3px; animation:kf-mote 11s ease-in-out 1.5s infinite}
+  .hc-motes i:nth-child(3){left:62%; animation:kf-mote 8.5s ease-in-out 3s infinite}
+  .hc-motes i:nth-child(4){left:82%; width:5px;height:5px; animation:kf-mote 12s ease-in-out .8s infinite}
+  .hc-motes i:nth-child(5){left:50%; width:3px;height:3px; animation:kf-mote 10s ease-in-out 4.2s infinite}
+  @keyframes kf-mote{0%{opacity:0; transform:translateY(370px) scale(.6)}12%{opacity:.55}88%{opacity:.4}100%{opacity:0; transform:translateY(-20px) scale(1)}}
+
+  .hc-heroc-x{position:absolute; top:12px; right:12px; z-index:11; width:26px;height:26px;border-radius:50%; line-height:1;
+    background:rgba(18,20,17,.34); color:#fff; display:grid;place-items:center; font-size:13px; backdrop-filter:blur(2px)}
+
+  /* 3D floating scene wrapper */
+  .hc-scene{position:absolute; inset:0; z-index:1; transform-style:preserve-3d; animation:kf-float 12s ease-in-out infinite}
+  @keyframes kf-float{0%,100%{transform:rotateX(0deg) rotateY(0deg)}25%{transform:rotateX(1.4deg) rotateY(-1.8deg)}
+    50%{transform:rotateX(0deg) rotateY(0deg)}75%{transform:rotateX(-1.2deg) rotateY(1.6deg)}}
+
+  .hc-stage{position:absolute; inset:0; opacity:0; transition:opacity .55s ease, filter .55s ease; filter:blur(6px)}
+  .hc-heroc.hc-b-raw .hc-stage.hc-grid, .hc-heroc.hc-b-rm .hc-stage.hc-grid, .hc-heroc.hc-b-feat .hc-stage.hc-grid{opacity:1; filter:blur(0); z-index:2}
+  .hc-heroc.hc-b-model .hc-stage.hc-model{opacity:1; filter:blur(0); z-index:3}
+  .hc-heroc.hc-b-list  .hc-stage.hc-list {opacity:1; filter:blur(0); z-index:4}
+
+  /* ---------- grid of 4 morphing tiles ---------- */
+  .hc-grid{background:radial-gradient(125% 96% at 50% 20%, #18774f 0%, #0c4835 56%, #052a1f 100%);
+    display:grid; grid-template-columns:1fr 1fr; gap:11px; padding:15px 15px 92px}
+  .hc-tile{position:relative; border-radius:14px; overflow:hidden; background:#FBFAF7; border:1px solid rgba(0,0,0,.05);
+    box-shadow:0 10px 22px rgba(0,0,0,.34); transform:translateY(16px) scale(.9) rotate(var(--rot,0)); opacity:0;
+    transition:opacity .5s var(--ease), transform .55s cubic-bezier(.34,1.56,.64,1)}
+  .hc-tile:nth-child(1){--rot:-2.5deg} .hc-tile:nth-child(2){--rot:2deg} .hc-tile:nth-child(3){--rot:2.5deg} .hc-tile:nth-child(4){--rot:-2deg}
+  .hc-heroc.hc-b-raw .hc-tile,.hc-heroc.hc-b-rm .hc-tile,.hc-heroc.hc-b-feat .hc-tile{opacity:1; transform:none}
+  .hc-heroc.hc-b-raw .hc-tile:nth-child(2),.hc-heroc.hc-b-rm .hc-tile:nth-child(2),.hc-heroc.hc-b-feat .hc-tile:nth-child(2){transition-delay:.07s}
+  .hc-heroc.hc-b-raw .hc-tile:nth-child(3),.hc-heroc.hc-b-rm .hc-tile:nth-child(3),.hc-heroc.hc-b-feat .hc-tile:nth-child(3){transition-delay:.14s}
+  .hc-heroc.hc-b-raw .hc-tile:nth-child(4),.hc-heroc.hc-b-rm .hc-tile:nth-child(4),.hc-heroc.hc-b-feat .hc-tile:nth-child(4){transition-delay:.21s}
+
+  .hc-ly{position:absolute; inset:0; opacity:0; transition:opacity .55s ease}
+  .hc-ly.hc-raw img,.hc-cutwrap img{width:100%;height:100%;object-fit:contain; padding:9%}
+  .hc-ly.hc-feat{background:#FBFAF7} .hc-ly.hc-feat img{width:100%;height:100%;object-fit:cover}
+  .hc-cutwrap .hc-checker{position:absolute; inset:0;
+    background:conic-gradient(#e9e5dc 90deg,#fff 0 180deg,#e9e5dc 0 270deg,#fff 0) 0 0/15px 15px; opacity:.5}
+  .hc-heroc.hc-b-raw  .hc-ly.hc-raw{opacity:1}
+  .hc-heroc.hc-b-rm   .hc-ly.hc-cutwrap{opacity:1}
+  .hc-heroc.hc-b-feat .hc-ly.hc-feat{opacity:1}
+  /* scan bar during Remove BG */
+  .hc-scan{position:absolute; left:-45%; top:-40%; width:55%; height:200%; z-index:4; opacity:0; pointer-events:none;
+    background:linear-gradient(105deg,transparent, rgba(120,255,205,.9) 46%, #eafff5 50%, rgba(120,255,205,.9) 54%, transparent);
+    filter:blur(.4px); transform:skewX(-16deg)}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(1) .hc-scan{animation:kf-scan 1s var(--ease) .1s}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(2) .hc-scan{animation:kf-scan 1s var(--ease) .22s}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(3) .hc-scan{animation:kf-scan 1s var(--ease) .34s}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(4) .hc-scan{animation:kf-scan 1s var(--ease) .46s}
+  @keyframes kf-scan{0%{opacity:0;left:-45%}12%{opacity:1}88%{opacity:1}100%{opacity:0;left:120%}}
+  /* chips + shimmer */
+  .hc-chip{position:absolute; left:8px; bottom:8px; z-index:6; display:inline-flex; align-items:center; gap:4px; overflow:hidden;
+    padding:4px 8px; border-radius:999px; font-size:9px; font-weight:800; letter-spacing:.02em; color:#063a29;
+    background:rgba(255,255,255,.95); box-shadow:0 4px 12px rgba(0,0,0,.28);
+    opacity:0; transform:translateY(6px) scale(.9); transition:opacity .38s cubic-bezier(.34,1.56,.64,1), transform .38s cubic-bezier(.34,1.56,.64,1)}
+  .hc-chip svg{width:11px;height:11px;stroke:#0E5C43;fill:none;stroke-width:2}
+  .hc-chip::after{content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.85),transparent); transform:skewX(-18deg)}
+  .hc-chip.hc-ft{background:rgba(14,92,67,.96); color:#eafff5} .hc-chip.hc-ft svg{stroke:#8ff0c6}
+  .hc-heroc.hc-b-rm .hc-chip.hc-rm{opacity:1; transform:none}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(2) .hc-chip.hc-rm{transition-delay:.12s} .hc-heroc.hc-b-rm .hc-tile:nth-child(3) .hc-chip.hc-rm{transition-delay:.24s} .hc-heroc.hc-b-rm .hc-tile:nth-child(4) .hc-chip.hc-rm{transition-delay:.36s}
+  .hc-heroc.hc-b-feat .hc-chip.hc-ft{opacity:1; transform:none}
+  .hc-heroc.hc-b-feat .hc-tile:nth-child(2) .hc-chip.hc-ft{transition-delay:.12s} .hc-heroc.hc-b-feat .hc-tile:nth-child(3) .hc-chip.hc-ft{transition-delay:.24s} .hc-heroc.hc-b-feat .hc-tile:nth-child(4) .hc-chip.hc-ft{transition-delay:.36s}
+  .hc-heroc.hc-b-rm .hc-chip.hc-rm::after,.hc-heroc.hc-b-feat .hc-chip.hc-ft::after{animation:kf-shimmer 1.8s ease .6s infinite}
+  @keyframes kf-shimmer{0%{left:-60%}55%,100%{left:160%}}
+  /* ✓ pin with glow-pulse */
+  .hc-pin{position:absolute; top:7px; right:7px; z-index:7; width:20px;height:20px;border-radius:50%; background:#12b579; color:#fff;
+    display:grid;place-items:center; font-size:11px; font-weight:900; box-shadow:0 3px 8px rgba(0,0,0,.3); opacity:0; transform:scale(.3)}
+  .hc-heroc.hc-b-rm .hc-pin,.hc-heroc.hc-b-feat .hc-pin{animation:kf-pin .5s cubic-bezier(.34,1.56,.64,1) forwards}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(1) .hc-pin,.hc-heroc.hc-b-feat .hc-tile:nth-child(1) .hc-pin{animation-delay:.7s}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(2) .hc-pin,.hc-heroc.hc-b-feat .hc-tile:nth-child(2) .hc-pin{animation-delay:.85s}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(3) .hc-pin,.hc-heroc.hc-b-feat .hc-tile:nth-child(3) .hc-pin{animation-delay:1s}
+  .hc-heroc.hc-b-rm .hc-tile:nth-child(4) .hc-pin,.hc-heroc.hc-b-feat .hc-tile:nth-child(4) .hc-pin{animation-delay:1.15s}
+  @keyframes kf-pin{0%{opacity:0;transform:scale(.3);box-shadow:0 0 0 0 rgba(18,181,121,.7)}
+    60%{opacity:1;transform:scale(1.2);box-shadow:0 0 0 7px rgba(18,181,121,0)}100%{opacity:1;transform:scale(1);box-shadow:0 3px 8px rgba(0,0,0,.3)}}
+
+  /* ---------- on-model (Ken Burns) ---------- */
+  .hc-model{background:radial-gradient(120% 92% at 50% 12%, #1a7d54 0%, #0c4835 55%, #052a1f 100%);
+    display:grid; place-items:center; padding:14px 14px 88px}
+  .hc-mframe{height:100%; border-radius:14px; overflow:hidden; box-shadow:0 16px 40px rgba(0,0,0,.4);
+    transform:scale(1.06); opacity:0; transition:opacity .6s ease, transform .9s var(--ease)}
+  .hc-heroc.hc-b-model .hc-mframe{opacity:1; transform:scale(1)}
+  .hc-mframe img{height:100%; width:auto; max-width:100%; object-fit:cover; display:block}
+  .hc-heroc.hc-b-model .hc-mframe img{animation:kf-ken 7s ease-out both}
+  @keyframes kf-ken{0%{transform:scale(1.02) translate(1%,1%)}100%{transform:scale(1.13) translate(-2%,-2%)}}
+  .hc-worn{position:absolute; z-index:5; display:inline-flex; align-items:center; gap:4px; padding:4px 8px 4px 5px; border-radius:999px;
+    background:rgba(255,255,255,.95); box-shadow:0 5px 14px rgba(0,0,0,.32); font-size:9px; font-weight:800; color:#063a29; opacity:0}
+  .hc-worn i{width:13px;height:13px;border-radius:50%; background:#12b579; color:#fff; display:grid;place-items:center; font-size:8px; font-weight:900; font-style:normal}
+  .hc-worn.hc-w1{top:20%; left:11%} .hc-worn.hc-w2{top:33%; right:9%} .hc-worn.hc-w3{bottom:34%; left:8%} .hc-worn.hc-w4{bottom:20%; right:11%}
+  .hc-heroc.hc-b-model .hc-worn{animation:kf-wornIn .5s cubic-bezier(.34,1.56,.64,1) forwards}
+  .hc-heroc.hc-b-model .hc-worn.hc-w1{animation-delay:.55s} .hc-heroc.hc-b-model .hc-worn.hc-w2{animation-delay:.75s}
+  .hc-heroc.hc-b-model .hc-worn.hc-w3{animation-delay:.95s} .hc-heroc.hc-b-model .hc-worn.hc-w4{animation-delay:1.15s}
+  @keyframes kf-wornIn{0%{opacity:0;transform:translateY(6px) scale(.7)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+
+  /* ---------- live listing ---------- */
+  .hc-list{background:radial-gradient(120% 92% at 50% 16%, #18774f 0%, #0c4835 56%, #052a1f 100%);
+    display:grid; place-items:start center; padding:16px 18px 88px}
+  .hc-lcard{width:210px; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 18px 40px rgba(0,0,0,.46);
+    opacity:0; transform:translateY(14px) scale(.9); transition:opacity .55s cubic-bezier(.34,1.56,.64,1), transform .55s cubic-bezier(.34,1.56,.64,1)}
+  .hc-heroc.hc-b-list .hc-lcard{opacity:1; transform:none}
+  .hc-lc-img{position:relative; height:118px; background:#f2efe8; overflow:hidden}
+  .hc-lc-img img{width:100%;height:100%;object-fit:cover; object-position:50% 22%}
+  .hc-heroc.hc-b-list .hc-lc-img img{animation:kf-ken2 7s ease-out both}
+  @keyframes kf-ken2{0%{transform:scale(1)}100%{transform:scale(1.09)}}
+  .hc-lc-mk{position:absolute; top:7px; left:7px; width:20px;height:20px;border-radius:6px; background:#95BF47; color:#fff; display:grid;place-items:center; font-size:11px; font-weight:800; box-shadow:0 2px 6px rgba(0,0,0,.2); z-index:2}
+  .hc-lc-sc{position:absolute; top:7px; right:7px; background:rgba(14,92,67,.96); color:#fff; font-size:9px; font-weight:800; padding:3px 7px; border-radius:7px; z-index:2}
+  .hc-lc-info{padding:9px 11px 11px}
+  .hc-lc-nm{font-family:var(--sans); font-size:12.5px; font-weight:700; color:var(--ink)}
+  .hc-lc-pr{font-family:var(--serif); font-size:13px; font-weight:600; color:var(--ink2); margin-top:1px}
+  .hc-lc-look{display:flex; align-items:center; gap:5px; margin-top:9px}
+  .hc-lc-look .hc-lk{width:30px;height:30px;border-radius:8px; overflow:hidden; background:#f4f1ea; border:1px solid var(--line); flex:none; opacity:0; transform:scale(.6)}
+  .hc-lc-look .hc-lk img{width:100%;height:100%;object-fit:cover}
+  .hc-lc-look .hc-lk-txt{font-size:8.5px; font-weight:700; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; margin-left:2px; line-height:1.15}
+  .hc-heroc.hc-b-list .hc-lc-look .hc-lk{animation:kf-lk .45s cubic-bezier(.34,1.56,.64,1) forwards}
+  .hc-heroc.hc-b-list .hc-lc-look .hc-lk:nth-child(1){animation-delay:.45s} .hc-heroc.hc-b-list .hc-lc-look .hc-lk:nth-child(2){animation-delay:.57s}
+  .hc-heroc.hc-b-list .hc-lc-look .hc-lk:nth-child(3){animation-delay:.69s} .hc-heroc.hc-b-list .hc-lc-look .hc-lk:nth-child(4){animation-delay:.81s}
+  @keyframes kf-lk{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+
+  /* ---------- foot ---------- */
+  .hc-scrim{position:absolute; left:0; right:0; bottom:0; height:120px; z-index:5; pointer-events:none;
+    background:linear-gradient(to top, rgba(5,36,26,.97) 30%, rgba(5,36,26,.5) 70%, transparent)}
+  .hc-foot{position:absolute; left:0; right:0; bottom:0; z-index:6; padding:0 18px 15px}
+  .hc-cap{font-family:var(--serif); font-weight:500; font-size:17px; line-height:1.16; letter-spacing:-.2px; color:#fff;
+    text-shadow:0 1px 12px rgba(0,0,0,.35); min-height:40px; margin-bottom:10px}
+  .hc-cap b{color:#8ff0c6; font-weight:600}
+  /* segmented progress bar */
+  .hc-pbar{display:flex; gap:5px}
+  .hc-pbar .hc-seg{position:relative; height:4px; width:26px; border-radius:2px; background:rgba(255,255,255,.22); overflow:hidden}
+  .hc-pbar .hc-seg .hc-fl{position:absolute; inset:0; width:0; border-radius:2px; background:linear-gradient(90deg,#8ff0c6,#c6f7e2)}
+  .hc-pbar .hc-seg.hc-done .hc-fl{width:100%}
+  .hc-pbar .hc-seg.hc-active .hc-fl{width:100%; transition:width linear}
 
   /* ============ EDITOR (canvas · Photoroom-style) ============ */
   .editor{background:#1b1a16}
@@ -470,7 +571,7 @@
 
 
   /* ====================================================================== */
-  /* ============ ADSHOOT LOGO LOCKUP (merged) ============================ */
+  /* ============ ADSHORT LOGO LOCKUP (merged) ============================ */
   .brandlock{display:inline-flex; align-items:center; gap:9px}
   .brandlock .bl-ico{width:27px; height:27px; flex:none; display:block}
   .brandlock .bl-wm{font-family:var(--serif); font-weight:500; font-size:20px; color:var(--ink); letter-spacing:-.4px; line-height:1}
@@ -762,7 +863,7 @@
   @keyframes asPing{0%{opacity:.7; transform:scale(.5)}100%{opacity:0; transform:scale(2.7)}}
   .as-mk{font-family:var(--serif); font-weight:500; font-size:30px; letter-spacing:-.7px; color:var(--ink); line-height:1}
   .as-mk i{font-style:italic; color:var(--em)}
-  .as-tg{font-family:var(--sans); font-size:9px; font-weight:700; letter-spacing:.3em; color:var(--muted); margin-top:8px}
+  .as-tg{font-family:var(--serif); font-style:italic; font-size:12px; font-weight:500; letter-spacing:.01em; color:var(--em); margin-top:9px; white-space:nowrap}
   .as-sub{font-size:13px; color:var(--ink2); line-height:1.55; text-align:center; margin-bottom:14px; padding:0 4px}
   @media (prefers-reduced-motion:reduce){
     .as-sweepBack,.as-sweepFront{display:none}
@@ -785,7 +886,7 @@
   <div class="phone">
     <button class="skip" id="skip">Skip</button>
 
-    <!-- ===== WELCOME (AdShoot brand reveal: silk sweep -> tiles bloom -> logo) ===== -->
+    <!-- ===== WELCOME (AdShort brand reveal: silk sweep -> tiles bloom -> logo) ===== -->
     <section class="screen on" data-s="welcome">
       <div class="welcome" id="welcome">
         <div class="as-stage" id="asStage">
@@ -795,13 +896,13 @@
             <div class="as-sweepFront"><div class="as-rb as-rb-core"></div></div>
           </div>
           <div class="as-logo" id="asLogo">
-            <div class="as-markwrap"><span class="as-ping"></span><svg width="84" height="84" viewBox="0 0 84 84" aria-label="AdShoot mark"><circle cx="42" cy="42" r="32" fill="none" stroke="#0E5C43" stroke-width="5"/><circle cx="42" cy="42" r="22" fill="none" stroke="#D8B66A" stroke-width="2.6"/><path d="M47 42 L39 37.2 L39 46.8 Z" fill="#D8B66A"/></svg></div>
-            <div class="as-mk">Ad<i>Shoot</i></div>
-            <div class="as-tg">SNAP &middot; SHOOT &middot; SELL</div>
+            <div class="as-markwrap"><span class="as-ping"></span><svg width="84" height="84" viewBox="0 0 84 84" aria-label="AdShort mark"><circle cx="42" cy="42" r="32" fill="none" stroke="#0E5C43" stroke-width="5"/><circle cx="42" cy="42" r="22" fill="none" stroke="#D8B66A" stroke-width="2.6"/><path d="M47 42 L39 37.2 L39 46.8 Z" fill="#D8B66A"/></svg></div>
+            <div class="as-mk">Ad<i>Short</i></div>
+            <div class="as-tg">One photo in, Ad shorts out.</div>
           </div>
         </div>
         <div class="wfoot">
-          <p class="as-sub">One photo in &mdash; listing-ready images and a selling video out. Made for Shopify sellers &amp; ads buyers.</p>
+          <p class="as-sub">Turn one product photo into scroll-stopping ads &mdash; on-model, every angle, every feed. Made for ecommerce sellers &amp; ad buyers.</p>
           <button class="cta" onclick="go('aha')">Begin<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           <button class="link" onclick="toast('Sign in (demo)')">Already have an account? <b>Sign in</b></button>
         </div>
@@ -820,7 +921,7 @@
         <div class="scan" id="scan"></div>
         <div class="ascrim"></div>
         <div class="progress"><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div></div>
-        <div class="abrand">Ad<b>Shoot</b></div>
+        <div class="abrand">Ad<b>Short</b></div>
         <div class="achip" id="achip">✦ Background removed</div>
         <div class="badge" id="badge"><span class="dot">✓</span><span>Shopify</span><span class="pct">· 95</span></div>
         <div class="cscore" id="cscore"><span class="cs-h">Creative score</span><b class="cs-n">94</b><span class="cs-t">Meta ✓ · TikTok ✓ · 9:16 ✓</span></div>
@@ -848,7 +949,7 @@
     <section class="screen" data-s="store">
       <div class="scroll" style="padding-bottom:96px">
         <div class="stop">
-          <div class="brandlock"><svg class="bl-ico" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="32" fill="none" stroke="#0E5C43" stroke-width="5"/><circle cx="42" cy="42" r="22" fill="none" stroke="#D8B66A" stroke-width="2.6"/><path d="M47 42 L39 37.2 L39 46.8 Z" fill="#D8B66A"/></svg><span class="bl-wm">Ad<i>Shoot</i></span></div>
+          <div class="brandlock"><svg class="bl-ico" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="32" fill="none" stroke="#0E5C43" stroke-width="5"/><circle cx="42" cy="42" r="22" fill="none" stroke="#D8B66A" stroke-width="2.6"/><path d="M47 42 L39 37.2 L39 46.8 Z" fill="#D8B66A"/></svg><span class="bl-wm">Ad<i>Short</i></span></div>
           <div class="tools"><span class="chipc">◆ 40</span></div>
         </div>
 
@@ -880,35 +981,82 @@
         <div class="sec-h" data-grp="alltools"><h3>All tools <span class="chev">›</span></h3><span class="more" onclick="toast('See all tools (demo)')">See all</span></div>
         <div class="toolgrid" id="toolGrid" data-grp="alltools"></div>
 
-        <!-- ░░ HERO CARD · self-playing showcase (set → live listing) ░░ -->
-        <div class="heroc s-idle" data-grp="hero">
-          <div class="heroc-x" onclick="toast('Dismissed (demo)')" title="Dismiss">✕</div>
-          <div class="heroc-stage">
-            <div class="hs hs-idle">
-              <div class="hs-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 14.5l5-5"/><path d="M11 6.5l1-1a3.8 3.8 0 0 1 5.5 5.5l-1 1"/><path d="M13 17.5l-1 1A3.8 3.8 0 0 1 6.5 13l1-1"/></svg></div>
-            </div>
-            <div class="hs hs-grid">
-              <div class="tile"><img src="store/product_lipstick_v2/01_white.jpg" alt=""></div>
-              <div class="tile"><img src="store/product_perfume/01_white.jpg" alt=""></div>
-              <div class="tile"><img src="store/product_shoes/01_white.png" alt=""></div>
-              <div class="tile"><img src="store/product_watch/01_white.jpg" alt=""></div>
-            </div>
-            <div class="hs hs-listing">
-              <div class="hs-lcard">
-                <div class="lc-img"><img src="store/_aha_onmodel/onmodel_pose.png" alt=""><span class="lc-mk">S</span><span class="lc-sc">✓ 95</span></div>
-                <div class="lc-info">
-                  <div class="lc-row"><span class="lc-nm">Aurora Wrap Dress</span><span class="lc-sw"><i style="background:#0E5C43"></i><i style="background:#9A7B3F"></i><i style="background:#1A1A1A"></i></span></div>
-                  <div class="lc-pr">$48.00</div>
-                  <div class="lc-btns"><span class="lc-cart">Add to cart</span><span class="lc-buy">Buy now</span></div>
-                </div>
+        <!-- ░░ STORE HERO CARD · 5-beat real-asset showcase ░░ -->
+        <div class="hc-heroc hc-b-raw" id="hcard">
+      <div class="hc-scene">
+        <div class="hc-stage hc-grid">
+          <div class="hc-tile">
+            <div class="hc-ly hc-raw"><img src="store/_card/necklace_raw.jpg" alt=""></div>
+            <div class="hc-ly hc-cutwrap"><div class="hc-checker"></div><img src="store/_card/necklace_cut.png" alt=""></div>
+            <div class="hc-ly hc-feat"><img src="store/_card/necklace_feat.jpg" alt=""></div>
+            <div class="hc-scan"></div><span class="hc-pin">✓</span>
+            <span class="hc-chip hc-rm"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 3"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19a5.5 5.5 0 0 1 11 0"/></svg>Remove BG</span>
+            <span class="hc-chip hc-ft"><svg viewBox="0 0 24 24"><path d="M12 3l1.7 4.5L18 9l-4.3 1.5L12 15l-1.7-4.5L6 9z"/></svg>Retouch</span>
+          </div>
+          <div class="hc-tile">
+            <div class="hc-ly hc-raw"><img src="store/_card/dress_raw.jpg" alt=""></div>
+            <div class="hc-ly hc-cutwrap"><div class="hc-checker"></div><img src="store/_card/dress_cut.png" alt=""></div>
+            <div class="hc-ly hc-feat"><img src="store/_card/dress_feat.jpg" alt=""></div>
+            <div class="hc-scan"></div><span class="hc-pin">✓</span>
+            <span class="hc-chip hc-rm"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 3"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19a5.5 5.5 0 0 1 11 0"/></svg>Remove BG</span>
+            <span class="hc-chip hc-ft"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/><circle cx="12" cy="12" r="3.2"/></svg>Relight</span>
+          </div>
+          <div class="hc-tile">
+            <div class="hc-ly hc-raw"><img src="store/_card/tote_raw.jpg" alt=""></div>
+            <div class="hc-ly hc-cutwrap"><div class="hc-checker"></div><img src="store/_card/tote_cut.png" alt=""></div>
+            <div class="hc-ly hc-feat"><img src="store/_card/tote_feat.jpg" alt=""></div>
+            <div class="hc-scan"></div><span class="hc-pin">✓</span>
+            <span class="hc-chip hc-rm"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 3"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19a5.5 5.5 0 0 1 11 0"/></svg>Remove BG</span>
+            <span class="hc-chip hc-ft"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="12" height="12" rx="2"/><path d="M9 20h9a2 2 0 0 0 2-2V9"/></svg>AI Shadow</span>
+          </div>
+          <div class="hc-tile">
+            <div class="hc-ly hc-raw"><img src="store/_card/shoes_raw.jpg" alt=""></div>
+            <div class="hc-ly hc-cutwrap"><div class="hc-checker"></div><img src="store/_card/shoes_cut.png" alt=""></div>
+            <div class="hc-ly hc-feat"><img src="store/_card/shoes_feat.jpg" alt=""></div>
+            <div class="hc-scan"></div><span class="hc-pin">✓</span>
+            <span class="hc-chip hc-rm"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 3"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19a5.5 5.5 0 0 1 11 0"/></svg>Remove BG</span>
+            <span class="hc-chip hc-ft"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.4"/></svg>AI Background</span>
+          </div>
+        </div>
+
+        <div class="hc-stage hc-model">
+          <div class="hc-mframe"><img src="store/_card/onmodel.jpg" alt=""></div>
+          <span class="hc-worn hc-w1"><i>✓</i>Necklace</span>
+          <span class="hc-worn hc-w2"><i>✓</i>Gown</span>
+          <span class="hc-worn hc-w3"><i>✓</i>Bag</span>
+          <span class="hc-worn hc-w4"><i>✓</i>Clogs</span>
+        </div>
+
+        <div class="hc-stage hc-list">
+          <div class="hc-lcard">
+            <div class="hc-lc-img"><img src="store/_card/onmodel.jpg" alt=""><span class="hc-lc-mk">S</span><span class="hc-lc-sc" id="hcScore">✓ 95</span></div>
+            <div class="hc-lc-info">
+              <div class="hc-lc-nm">The Champagne Edit — Full Look</div>
+              <div class="hc-lc-pr">$248.00 · 4-piece set</div>
+              <div class="hc-lc-look">
+                <span class="hc-lk"><img src="store/_card/necklace_feat.jpg" alt=""></span>
+                <span class="hc-lk"><img src="store/_card/dress_feat.jpg" alt=""></span>
+                <span class="hc-lk"><img src="store/_card/tote_feat.jpg" alt=""></span>
+                <span class="hc-lk"><img src="store/_card/shoes_feat.jpg" alt=""></span>
+                <span class="hc-lk-txt">Complete<br>the look</span>
               </div>
             </div>
           </div>
-          <div class="heroc-scrim"></div>
-          <div class="heroc-foot">
-            <div class="heroc-txt">One photo → store-ready shots for every marketplace</div>
-          </div>
         </div>
+      </div>
+
+      <div class="hc-motes"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="hc-scrim"></div>
+      <div class="hc-foot">
+        <div class="hc-cap" id="hcCap">Your <b>4 raw</b> product shots</div>
+        <div class="hc-pbar" id="hcPbar"><span class="hc-seg"><span class="hc-fl"></span></span><span class="hc-seg"><span class="hc-fl"></span></span><span class="hc-seg"><span class="hc-fl"></span></span><span class="hc-seg"><span class="hc-fl"></span></span><span class="hc-seg"><span class="hc-fl"></span></span></div>
+      </div>
+
+      <div class="hc-fx-glow"></div>
+      <div class="hc-fx-glare"></div>
+      <div class="hc-fx-grain"></div>
+      <div class="hc-heroc-x">✕</div>
+    </div>
 
         <!-- ░░ MARKETPLACE FORMATS · format cards (badge + dimensions) ░░ -->
         <div class="sec-h" data-grp="formats"><h3>Marketplace formats <span class="chev">›</span></h3><span class="more" onclick="toast('See all formats (demo)')">See all</span></div>
@@ -1080,7 +1228,7 @@
           <div class="ed-bar"><i></i></div>
         </div>
       </div>
-      <div class="ed-savepill"><span>✦ AdShoot auto-saves your design</span></div>
+      <div class="ed-savepill"><span>✦ AdShort auto-saves your design</span></div>
       <div class="ed-grid">
         <div class="ed-tool" onclick="toast('Layers (demo)')"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><b>Layers</b></div>
         <div class="ed-tool" onclick="toast('Insert image (demo)')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><b>Insert</b></div>
@@ -1174,7 +1322,7 @@
     <section class="screen" data-s="advideo">
 
       <div class="stop">
-        <div class="brandlock"><svg class="bl-ico" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="32" fill="none" stroke="#0E5C43" stroke-width="5"/><circle cx="42" cy="42" r="22" fill="none" stroke="#D8B66A" stroke-width="2.6"/><path d="M47 42 L39 37.2 L39 46.8 Z" fill="#D8B66A"/></svg><span class="bl-wm">Ad<i>Shoot</i></span></div>
+        <div class="brandlock"><svg class="bl-ico" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="32" fill="none" stroke="#0E5C43" stroke-width="5"/><circle cx="42" cy="42" r="22" fill="none" stroke="#D8B66A" stroke-width="2.6"/><path d="M47 42 L39 37.2 L39 46.8 Z" fill="#D8B66A"/></svg><span class="bl-wm">Ad<i>Short</i></span></div>
         <div class="tools"><span class="chipc">◆ 40</span></div>
       </div>
 
@@ -1374,15 +1522,20 @@
       <div class="pw-scrim"></div>
       <div class="pw-x" id="pwx" title="Close">✕</div>
       <div class="pw-card">
-        <span class="guard"><span>✦</span> Listing &amp; Ad Compliance Guard</span>
+        <span class="guard"><span>✦</span> AI Ad-Video Maker</span>
         <h2 class="pw-head">You snap it.<br><em>We shoot it.</em></h2>
         <ul class="pw-list">
-          <li><span class="ck">✓</span> Photos auto-scored to every marketplace's rules</li>
-          <li><span class="ck">✓</span> Scroll-stopping videos, ad-safe for Meta &amp; TikTok</li>
-          <li><span class="ck">✓</span> Every angle &amp; ratio, every channel</li>
+          <li><span class="ck">✓</span><span class="tx"><b>One photo → a scroll-stopping video ad</b> — made for you in minutes</span></li>
+          <li><span class="ck">✓</span><span class="tx">Built to sell on <b>Meta &amp; TikTok</b> — every angle &amp; ratio, every channel</span></li>
+          <li><span class="ck">✓</span><span class="tx">Every shot auto-scored to <b>each marketplace's rules</b></span></li>
         </ul>
+        <div class="pw-plans pw-plans-3">
+          <button class="pw-plan" data-tier="creator"><span class="pl-name">Creator</span><span class="pl-price">$14.99<span>/mo</span></span><span class="pl-note">~10 videos</span></button>
+          <button class="pw-plan sel" data-tier="studio"><span class="save">POPULAR</span><span class="pl-name">Studio</span><span class="pl-price">$29<span>/mo</span></span><span class="pl-note">30 vids · Compliance</span></button>
+          <button class="pw-plan" data-tier="agency"><span class="pl-name">Agency</span><span class="pl-price">$69<span>/mo</span></span><span class="pl-note">Volume + credits</span></button>
+        </div>
         <button class="cta pw-cta" onclick="toast('Trial started (demo)'); closePaywall();">Try 7 days free<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-        <div class="pw-sub">Then $24.99/mo · cancel anytime</div>
+        <div class="pw-sub">No charge today · we'll remind you before it ends · cancel anytime</div>
         <div class="pw-foot"><span>Restore</span><span class="sep">·</span><span>Terms</span><span class="sep">·</span><span>Privacy</span></div>
       </div>
     </div>
@@ -1514,6 +1667,7 @@
   window.openPaywall=function(){ document.getElementById('paywall').classList.add('show'); };
   window.closePaywall=function(){ document.getElementById('paywall').classList.remove('show'); go('store'); };
   document.getElementById('pwx').addEventListener('click', window.closePaywall);
+  [].slice.call(document.querySelectorAll('#paywall .pw-plan')).forEach(function(p){ p.addEventListener('click', function(){ document.querySelectorAll('#paywall .pw-plan').forEach(function(x){x.classList.remove('sel')}); p.classList.add('sel'); }); });
 
   /* ============ Product (hub + detail) ============ */
   var PRODUCTS=[
@@ -1614,14 +1768,30 @@
     clearTimeout(edT); edT=setTimeout(function(){ wrap.classList.remove('loading'); }, 950);
   };
   /* hero showcase loop — connect → set of shots → live listing (plays only while Store is visible) */
-  var heroT=null, heroStages=['idle','grid','listing'], heroDur={idle:1600, grid:2700, listing:3000}, heroIdx=0;
-  function heroSetStage(s){ var c=document.querySelector('.screen[data-s="store"] .heroc'); if(!c) return; heroStages.forEach(function(x){ c.classList.toggle('s-'+x, x===s); }); }
-  function heroStop(){ if(heroT){ clearTimeout(heroT); heroT=null; } }
-  function heroPlay(){ heroStop();
-    if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches){ heroSetStage('listing'); return; }
-    heroIdx=0; heroSetStage('idle');
-    (function step(){ heroT=setTimeout(function(){ heroIdx=(heroIdx+1)%heroStages.length; heroSetStage(heroStages[heroIdx]); step(); }, heroDur[heroStages[heroIdx]]); })();
-  }
+  /* store hero card — 5-beat real-asset showcase (heroPlay/heroStop used by go()) */
+  (function(){
+    var card=document.getElementById('hcard'); if(!card) return;
+    var cap=document.getElementById('hcCap'), score=document.getElementById('hcScore');
+    var segs=[].slice.call(document.querySelectorAll('#hcPbar .hc-seg'));
+    var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var beats=[
+      {c:'hc-b-raw',   t:'Your <b>4 raw</b> product shots',      d:1600},
+      {c:'hc-b-rm',    t:'Remove background — <b>all four</b>', d:2700},
+      {c:'hc-b-feat',  t:'Each one, <b>a different AI tool</b>',  d:3100},
+      {c:'hc-b-model', t:'Worn together — <b>on one model</b>', d:3000},
+      {c:'hc-b-list',  t:'One shoot → a <b>store-ready set</b>', d:3100}
+    ];
+    var i=0, heroT=null;
+    function paintBar(n){ segs.forEach(function(s,idx){ var fl=s.querySelector('.hc-fl'); s.classList.remove('hc-active','hc-done'); if(fl){fl.style.transition='none'; fl.style.width='0';} if(idx<n) s.classList.add('hc-done'); });
+      var cur=segs[n]; if(!cur) return; var fl=cur.querySelector('.hc-fl'); if(fl){ void fl.offsetWidth; fl.style.transition='width '+beats[n].d+'ms linear'; } cur.classList.add('hc-active'); }
+    function countScore(){ if(!score) return; var v=0; var iv=setInterval(function(){ v+=3; if(v>=95){v=95; clearInterval(iv);} score.textContent='✓ '+v; },26); }
+    function set(n){ i=n; var b=beats[n]; beats.forEach(function(x){card.classList.remove(x.c)}); card.classList.add(b.c); if(cap) cap.innerHTML=b.t; paintBar(n); if(b.c==='hc-b-list') countScore(); }
+    window.heroStop=function(){ if(heroT){ clearTimeout(heroT); heroT=null; } };
+    function loop(){ heroT=setTimeout(function(){ set((i+1)%beats.length); loop(); }, beats[i].d); }
+    window.heroPlay=function(){ window.heroStop(); if(reduce){ set(4); return; } set(0); loop(); };
+    card.addEventListener('click', function(){ window.heroStop(); set((i+1)%beats.length); loop(); });
+    window.heroPlay();
+  })();
   // wire Home cards (tools / featured / classic / templates) → picker, like Pixelcut
   [].slice.call(document.querySelectorAll('.screen[data-s="store"] .ptool, .screen[data-s="store"] .featb, .screen[data-s="store"] .classic, .screen[data-s="store"] .scene-row .scenecard')).forEach(function(el){ el.onclick=openPick; });
   // wire Apply-grid treatment cards → Editor canvas (skip "more"/"see all")
